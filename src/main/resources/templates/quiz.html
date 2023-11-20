@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Trivia Game</title>
+</head>
+<body>
+<h1>Welcome to the Trivia Game!</h1>
+<p>Score: <span th:text="${score}"></span></p>
+<form th:action="@{/quiz/submit}" method="post">
+  <div th:each="question : ${questions}">
+    <h3 th:text="${question.questionText}"></h3>
+    <ul>
+      <li th:each="answer : ${question.answers}">
+        <input type="radio" th:name="'answer_' + ${question.questionId}" th:value="${answer.getAnswerId()}">
+        <span th:text="${answer.answerText}"></span>
+      </li>
+    </ul>
+  </div>
+  <button type="submit">Submit</button>
+</form>
+</body>
+</html>
