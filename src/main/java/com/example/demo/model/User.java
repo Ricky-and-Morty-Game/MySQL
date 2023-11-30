@@ -29,6 +29,9 @@ import java.util.List;
     @Column(nullable=false, unique = true)
     private String email;
 
+    @Column(nullable = false)
+    private String score;
+
     public User() {}
 
     public User(String username, String password) {}

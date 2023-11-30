@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Questions;
 import com.example.demo.model.User;
+import com.example.demo.repository.UserRepo;
 import com.example.demo.service.ScoreboardService;
 import com.example.demo.service.UserService;
 import jakarta.persistence.EntityManager;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -20,16 +22,24 @@ public class MyController {
     private UserService userService;
     private EntityManager entityManager;
     private final ScoreboardService scoreboardService;
+    private final UserRepo userRepo;
 
 
-    public MyController(UserService userService, EntityManagerFactory entityManagerFactory, ScoreboardService scoreboardService) {
+    public MyController(UserService userService, EntityManagerFactory entityManagerFactory, ScoreboardService scoreboardService, UserRepo userRepo) {
         this.userService = userService;
         this.entityManager = entityManagerFactory.createEntityManager();
         this.scoreboardService = scoreboardService;
+        this.userRepo = userRepo;
     }
 
     @GetMapping("/index")
-    public String home(){
+    public String home(Model model){
+        int topScore = userRepo.findTopScore();
+        String usernameWithTopScore = userRepo.findUsernameWithTopScore();
+        List<User> users = userRepo.findAllUsersScores();
+        model.addAttribute("usernameWithTopScore", usernameWithTopScore);
+        model.addAttribute("topScore", topScore);
+        model.addAttribute("users", users);
         return "index";
     }
 
@@ -50,7 +60,7 @@ public class MyController {
     }
 
     // handler method to handle user registration request
-    @GetMapping("register")
+    @GetMapping("/register")
     public String showRegistrationForm(Model model){
         model.addAttribute("user", new User());
         return "register";
