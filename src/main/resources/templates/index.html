@@ -10,6 +10,7 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
 </head>
+</head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
@@ -36,6 +37,27 @@
     <div class="row">
         <h1 class="text-center"> Welcome to Registration and Login System </h1>
     </div>
+    <div class="row">
+        <div class="col text-center">
+            <h2>The Current Top Score is <span th:text="${topScore}"></span></h2>
+            <h2>Held By: <span th:text="${usernameWithTopScore}"></span></h2>
+            <h3>All scores:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.username}"--></td>
+                        <td th:text="${user.score}"></td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+</div>
 </div>
 </body>
 </html>
